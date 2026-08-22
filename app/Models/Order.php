@@ -18,10 +18,18 @@ class Order extends Model
         'shipping_cost',
         'discount',
         'total',
-        'payment_method',
+        'shipping_name',
         'shipping_address',
-        'billing_address',
-        'notes'
+        'shipping_city',
+        'shipping_state',
+        'shipping_postal_code',
+        'shipping_country',
+        'shipping_phone',
+        'payment_method',
+        'payment_status',
+        'transaction_id',
+        'notes',
+        'admin_notes'
     ];
 
     protected $casts = [
@@ -32,21 +40,21 @@ class Order extends Model
         'total' => 'decimal:2',
     ];
 
-    // ========== RELACIONES ==========
-    
-    /**
-     * Un pedido pertenece a un usuario
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Un pedido tiene muchos items
-     */
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public static function generateOrderNumber()
+    {
+        $prefix = 'ORD-';
+        $date = date('Ymd');
+        $lastOrder = self::whereDate('created_at', today())->count() + 1;
+        return $prefix . $date . '-' . str_pad($lastOrder, 4, '0', STR_PAD_LEFT);
     }
 }

@@ -12,7 +12,10 @@ class OrderItem extends Model
     protected $fillable = [
         'order_id',
         'product_id',
-        'product_variant_id',
+        'variant_id',
+        'product_name',
+        'product_sku',
+        'variant_name',
         'quantity',
         'price',
         'total'
@@ -23,29 +26,18 @@ class OrderItem extends Model
         'total' => 'decimal:2',
     ];
 
-    // ========== RELACIONES ==========
-    
-    /**
-     * Un item pertenece a un pedido
-     */
     public function order()
     {
         return $this->belongsTo(Order::class);
     }
 
-    /**
-     * Un item pertenece a un producto
-     */
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
-    /**
-     * Un item pertenece a una variante de producto
-     */
     public function variant()
     {
-        return $this->belongsTo(ProductVariant::class, 'product_variant_id');
+        return $this->belongsTo(ProductVariant::class, 'variant_id');
     }
 }

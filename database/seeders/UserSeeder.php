@@ -10,7 +10,7 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        // Usuario administrador
+        // Usuario Administrador
         User::create([
             'name' => 'Admin',
             'email' => 'admin@colchones.com',
@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'role' => 'admin'
         ]);
 
-        // Usuario vendedor
+        // Usuario Vendedor
         User::create([
             'name' => 'Vendedor',
             'email' => 'vendedor@colchones.com',
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             'role' => 'seller'
         ]);
 
-        // Usuario cliente
+        // Usuario Cliente
         User::create([
             'name' => 'Cliente',
             'email' => 'cliente@colchones.com',
@@ -40,8 +40,8 @@ class UserSeeder extends Seeder
             'role' => 'client'
         ]);
 
-        // 10 usuarios de prueba
-        for ($i = 1; $i <= 10; $i++) {
+        // 5 usuarios de prueba
+        for ($i = 1; $i <= 5; $i++) {
             User::create([
                 'name' => "Usuario {$i}",
                 'email' => "usuario{$i}@test.com",

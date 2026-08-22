@@ -12,16 +12,37 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('order_number')->unique();
-            $table->enum('status', ['pending', 'paid', 'shipped', 'delivered', 'cancelled'])->default('pending');
-            $table->decimal('subtotal', 10, 2);
-            $table->decimal('tax', 10, 2)->default(0);
-            $table->decimal('shipping_cost', 10, 2)->default(0);
-            $table->decimal('discount', 10, 2)->default(0);
-            $table->decimal('total', 10, 2);
-            $table->string('payment_method')->nullable();
-            $table->text('shipping_address');
-            $table->text('billing_address')->nullable();
+            $table->enum('status', ['pending', 'processing', 'paid', 'shipped', 'delivered', 'cancelled'])->default('pending');
+            
+            // Totales
+            $table->decimal('subtotal', 12, 2);
+            $table->decimal('tax', 12, 2)->default(0);
+            $table->decimal('shipping_cost', 12, 2)->default(0);
+            $table->decimal('discount', 12, 2)->default(0);
+            $table->decimal('total', 12, 2);
+            
+            // ✅ Datos de envío (cambiar para que coincida con el controlador)
+            $table->string('shipping_name');
+            $table->string('shipping_address');
+            $table->string('shipping_city');
+            $table->string('shipping_state');
+            $table->string('shipping_postal_code')->nullable();
+            $table->string('shipping_country')->default('Colombia');
+            $table->string('shipping_phone')->nullable();
+            
+            // Datos de facturación (opcional)
+            $table->string('billing_address')->nullable();
+            
+            // Método de pago
+            $table->string('payment_method');
+            $table->string('payment_status')->default('pending');
+            $table->json('payment_data')->nullable();
+            $table->string('transaction_id')->nullable();
+            
+            // Notas
             $table->text('notes')->nullable();
+            $table->text('admin_notes')->nullable();
+            
             $table->timestamps();
         });
     }

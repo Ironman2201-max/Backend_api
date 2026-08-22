@@ -12,10 +12,17 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_variant_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('variant_id')->nullable()->constrained('product_variants')->onDelete('set null');
+            
+            // ✅ Campos necesarios para el checkout
+            $table->string('product_name');
+            $table->string('product_sku');
+            $table->string('variant_name')->nullable();
+            
             $table->integer('quantity');
-            $table->decimal('price', 10, 2);
-            $table->decimal('total', 10, 2);
+            $table->decimal('price', 12, 2);
+            $table->decimal('total', 12, 2);
+            
             $table->timestamps();
         });
     }

@@ -6,9 +6,16 @@ use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\ImageController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\V1\CheckoutController;
+use App\Http\Controllers\Api\V1\Admin\DashboardController;
+use App\Http\Controllers\Api\V1\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Api\V1\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Api\V1\Admin\UserController as AdminUserController;
+
+
 
 Route::prefix('v1')->group(function () {
-    
+
     // ===== AUTENTICACIÓN =====
     Route::prefix('auth')->group(function () {
         Route::post('register', [AuthController::class, 'register']);
@@ -17,7 +24,7 @@ Route::prefix('v1')->group(function () {
         Route::post('refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
         Route::get('user', [AuthController::class, 'user'])->middleware('auth:api');
         Route::put('profile', [AuthController::class, 'updateProfile'])->middleware('auth:api');
-         Route::post('/upload-image', [ImageController::class, 'upload'])->middleware('auth:api');
+        Route::post('/upload-image', [ImageController::class, 'upload'])->middleware('auth:api');
     });
 
     // ===== CATÁLOGO =====
@@ -52,4 +59,41 @@ Route::prefix('v1')->group(function () {
         Route::put('admin/categories/{id}', [CategoryController::class, 'update']);
         Route::delete('admin/categories/{id}', [CategoryController::class, 'destroy']);
     });
+
+
+    // ===== CHECKOUT =====
+    Route::middleware(['auth:api'])->group(function () {
+        Route::post('checkout/process', [CheckoutController::class, 'process']);
+        Route::get('orders', [CheckoutController::class, 'orders']);
+        Route::get('orders/{id}', [CheckoutController::class, 'order']);
+    });
+
+    // Ruta de prueba para simular pago (sin autenticación)
+    Route::post('checkout/simulate-payment/{orderId}', [CheckoutController::class, 'simulatePayment']);
+ 
+ 
+// ===== ADMINISTRACIÓN =====
+Route::middleware(['auth:api'])->prefix('admin')->group(function () {
+    // Dashboard
+    Route::get('dashboard', [DashboardController::class, 'index']);
+    
+    // Productos
+    Route::get('products', [AdminProductController::class, 'index']);
+    Route::post('products', [AdminProductController::class, 'store']);
+    Route::put('products/{id}', [AdminProductController::class, 'update']);
+    Route::delete('products/{id}', [AdminProductController::class, 'destroy']);
+    
+    // Pedidos
+    Route::get('orders', [AdminOrderController::class, 'index']);
+    Route::get('orders/{id}', [AdminOrderController::class, 'show']);
+    Route::put('orders/{id}/status', [AdminOrderController::class, 'updateStatus']);
+    
+    // Usuarios
+    Route::get('users', [AdminUserController::class, 'index']);
+    Route::put('users/{id}/role', [AdminUserController::class, 'updateRole']);
+});
+
+
+
+
 });
