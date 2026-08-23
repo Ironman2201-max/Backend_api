@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
@@ -21,6 +22,34 @@ class Category extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    public function getImageAttribute($value): ?string
+    {
+        return $this->resolveImageUrl($value);
+    }
+
+    protected function resolveImageUrl(?string $value): ?string
+    {
+        if (blank($value)) {
+            return null;
+        }
+
+        $normalizedValue = ltrim($value, '/');
+
+        if (Str::startsWith($normalizedValue, ['http://', 'https://'])) {
+            return $normalizedValue;
+        }
+
+        if (Str::startsWith($normalizedValue, 'storage/')) {
+            return url($normalizedValue);
+        }
+
+        if (Str::contains($normalizedValue, '/')) {
+            return url($normalizedValue);
+        }
+
+        return url('images/products/' . $normalizedValue);
+    }
 
     // ========== RELACIONES ==========
     
