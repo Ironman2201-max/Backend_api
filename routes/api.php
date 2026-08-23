@@ -12,7 +12,15 @@ use App\Http\Controllers\Api\V1\Admin\ProductController as AdminProductControlle
 use App\Http\Controllers\Api\V1\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Api\V1\Admin\UserController as AdminUserController;
 
-
+Route::prefix('auth')->group(function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+    Route::post('refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
+    Route::get('user', [AuthController::class, 'user'])->middleware('auth:api');
+    Route::put('profile', [AuthController::class, 'updateProfile'])->middleware('auth:api');
+    Route::post('upload-image', [ImageController::class, 'upload'])->middleware('auth:api');
+});
 
 Route::prefix('v1')->group(function () {
 
