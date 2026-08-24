@@ -94,7 +94,7 @@ class ProductController extends Controller
             'cost' => 'nullable|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'stock_status' => 'required|in:in_stock,out_of_stock,backorder',
-            'image_principal' => 'nullable|string|max:255',
+            'image_principal' => 'nullable|string|max:500',
             'is_featured' => 'boolean',
             'is_active' => 'boolean'
         ]);
@@ -157,7 +157,7 @@ class ProductController extends Controller
             'cost' => 'nullable|numeric|min:0',
             'stock' => 'sometimes|integer|min:0',
             'stock_status' => 'sometimes|in:in_stock,out_of_stock,backorder',
-            'image_principal' => 'nullable|string|max:255',
+            'image_principal' => 'nullable|string|max:500',
             'is_featured' => 'boolean',
             'is_active' => 'boolean'
         ]);

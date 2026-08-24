@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('cost', 10, 2)->nullable(); // Costo
             $table->integer('stock')->default(0);
             $table->enum('stock_status', ['in_stock', 'out_of_stock', 'backorder'])->default('in_stock');
-            $table->string('image_principal')->nullable();
+            $table->string('image_principal', 500)->nullable();
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_active')->default(true);
             $table->timestamps();

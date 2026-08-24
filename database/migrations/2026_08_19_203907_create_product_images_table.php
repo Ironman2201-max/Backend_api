@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->string('url');
+            $table->string('url', 500);
             $table->boolean('is_primary')->default(false);
             $table->integer('order')->default(0);
             $table->timestamps();
