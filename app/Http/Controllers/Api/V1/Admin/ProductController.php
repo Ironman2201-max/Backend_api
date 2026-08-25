@@ -94,7 +94,7 @@ class ProductController extends Controller
             'cost' => 'nullable|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'stock_status' => 'required|in:in_stock,out_of_stock,backorder',
-            'image_principal' => 'nullable|string|max:500',
+            'image_principal' => 'nullable|string|max:1000',
             'is_featured' => 'boolean',
             'is_active' => 'boolean'
         ]);
